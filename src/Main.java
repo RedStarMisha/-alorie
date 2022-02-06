@@ -18,8 +18,15 @@ public class Main {
         while (true) {
             int numMenu=scanner.nextInt();
             if (numMenu==1) {
-                System.out.println("Про какой месяц речь");
-                month = scanner.next();
+                while (true) {
+                    System.out.println("Про какой месяц речь");
+                    month = scanner.next();
+                    if (!stepTracker.checkMonth(month)) {
+                        System.out.println("Введите месяц правильно");
+                    } else {
+                        break;
+                    }
+                }
                 System.out.println("За какое число вы хотите ввести данные");
                 int numDay = scanner.nextInt();
                 System.out.println("Сколько шагов вы прошли за этот день");
@@ -27,11 +34,10 @@ public class Main {
                 stepTracker.writeActivity(month, numDay,quantityOfSteps);
 
             } else if (numMenu==2) {
-                System.out.println("За какой день считать");
-                int numCheckedDay = scanner.nextInt();
-                stepTracker.readActivity(month, numCheckedDay);
+                System.out.println("За какой месяц считать");
+                String monthChecked = scanner.next();
+                stepTracker.viewActivity(monthChecked);
             } else if (numMenu==3) {
-
             } else if (numMenu==4) {
                 break;
             }
