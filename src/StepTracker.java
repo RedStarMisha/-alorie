@@ -2,14 +2,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class StepTracker {
-    private HashMap<String, int[]> monthSteps = new HashMap<>();
+    private HashMap<String, int []> monthSteps = new HashMap<>();
     Converter converter = new Converter();
     private int dayGoal = 1000;
     private int bestSeries;
 
     StepTracker() {
         for (Months month : Months.values()) {
-            monthSteps.put(String.valueOf(month), new int[30]);
+            monthSteps.put(String.valueOf(month), new int[30] );
         }
     }
 
@@ -17,8 +17,9 @@ public class StepTracker {
         return monthSteps.containsKey(month);
     }
 
-    void writeActivity(String monthName, int day, int steps) {
-        monthSteps.get(monthName)[day - 1] = steps;
+    void setActivity(String monthName, int day, int steps) {
+        int [] setActivityOfMonth = monthSteps.get(monthName);
+        setActivityOfMonth[day-1]=steps;
     }
 
     void viewActivity(String month) {
@@ -26,7 +27,8 @@ public class StepTracker {
         int activDay = 0;
         System.out.println("Статистика за месяц " + month + " :");
         for (int i = 0; i < monthSteps.get(month).length; i++) {
-            System.out.print((i + 1) + " день:" + monthSteps.get(month)[i] + " ");
+            System.out.print((i + 1) + " день:" + monthSteps.get(month)[i]);
+            System.out.print(i!=(monthSteps.get(month).length-1) ? ", ": "");
             stepsOfMonth += monthSteps.get(month)[i];
             activDay++;
         }
@@ -37,20 +39,21 @@ public class StepTracker {
         System.out.println("Лучшая серия составила " + findSeries(monthSteps.get(month)) + " дней");
     }
 
-    int findSeries (int [] oneMonth) {
-        int localSerisesOfActivity = 1;
-        for (int i=0;i<(oneMonth.length-1);i++) {
-            if (oneMonth[i] >= dayGoal && oneMonth[i+1] >= dayGoal) {
+    int findSeries(int[] oneMonth) {
+        int localSerisesOfActivity = 0;
+        for (int i = 0; i < (oneMonth.length); i++) {
+            if (oneMonth[i] >= dayGoal) {
                 localSerisesOfActivity++;
-            } else if (oneMonth[i]>dayGoal&&oneMonth[i+1] < dayGoal) {
-                localSerisesOfActivity = 1;
-            }
-            if (localSerisesOfActivity>bestSeries) {
-                bestSeries = localSerisesOfActivity;
+            } else {
+                if (localSerisesOfActivity > bestSeries) {
+                    bestSeries = localSerisesOfActivity;
+                }
+                localSerisesOfActivity = 0;
             }
         }
         return bestSeries;
     }
+
 
     public void setDayGoal(int dayGoal) {
         this.dayGoal = dayGoal;

@@ -31,7 +31,7 @@ public class Application {
                 int numDay = scanner.nextInt();
                 System.out.println("Сколько шагов вы прошли за этот день");
                 int quantityOfSteps = scanner.nextInt();
-                stepTracker.writeActivity(month, numDay, quantityOfSteps);
+                stepTracker.setActivity(month, numDay, quantityOfSteps);
 
             } else if (numMenu == 2) {
                 System.out.println("За какой месяц считать");
